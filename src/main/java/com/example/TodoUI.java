@@ -70,12 +70,15 @@ public class TodoUI extends UI {
     private void addActionButtons() {
         Button deleteButton = new Button("Delete completed items");
         Button showDoneButton = new Button("Show only Done tasks");
+        Button showAllButton = new Button("Show All");
 
         deleteButton.addClickListener(click->todoList.deleteCompleted());
         showDoneButton.addClickListener(click -> todoList.showCompleted());
+        showAllButton.addClickListener(click -> todoList.init());
 
         layout.addComponent(deleteButton);
         layout.addComponent(showDoneButton);
+        layout.addComponent(showAllButton);
 
     }
 }

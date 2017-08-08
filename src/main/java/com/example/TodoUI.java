@@ -74,10 +74,11 @@ public class TodoUI extends UI {
         Button deleteButton = new Button("Delete completed items");
         Button showUndoneButton = new Button("Show only Undone tasks");
         Button showAllButton = new Button("Show All");
+        showAllButton.setEnabled(false);
 
         deleteButton.addClickListener(click->todoList.deleteCompleted());
-        showUndoneButton.addClickListener(click -> todoList.showCompleted());
-        showAllButton.addClickListener(click -> todoList.init());
+        showUndoneButton.addClickListener(click -> {todoList.showCompleted(); showUndoneButton.setEnabled(false); showAllButton.setEnabled(true);});
+        showAllButton.addClickListener(click -> {todoList.showAll();  showUndoneButton.setEnabled(true); showAllButton.setEnabled(false);});
 
         formLayout.addComponent(showUndoneButton);
         formLayout.addComponent(showAllButton);

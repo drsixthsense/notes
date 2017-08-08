@@ -23,8 +23,8 @@ public class TodoUI extends UI {
         setupLayout();
         addHeader();
         addForm();
-        addTodoList();
         addActionButtons();
+        addTodoList();
     }
 
     private void setupLayout() {
@@ -68,17 +68,22 @@ public class TodoUI extends UI {
     }
 
     private void addActionButtons() {
+        HorizontalLayout formLayout = new HorizontalLayout();
+        formLayout.setWidth("80%");
+
         Button deleteButton = new Button("Delete completed items");
-        Button showDoneButton = new Button("Show only Done tasks");
+        Button showUndoneButton = new Button("Show only Undone tasks");
         Button showAllButton = new Button("Show All");
 
         deleteButton.addClickListener(click->todoList.deleteCompleted());
-        showDoneButton.addClickListener(click -> todoList.showCompleted());
+        showUndoneButton.addClickListener(click -> todoList.showCompleted());
         showAllButton.addClickListener(click -> todoList.init());
 
-        layout.addComponent(deleteButton);
-        layout.addComponent(showDoneButton);
-        layout.addComponent(showAllButton);
+        formLayout.addComponent(showUndoneButton);
+        formLayout.addComponent(showAllButton);
+        formLayout.addComponent(deleteButton);
+
+        layout.addComponent(formLayout);
 
     }
 }

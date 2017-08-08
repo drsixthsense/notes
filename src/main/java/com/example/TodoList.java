@@ -49,7 +49,7 @@ class TodoList extends VerticalLayout implements TodoChangeListener {
         update();
     }
     public void showCompleted(){
-        List<Todo> newTodoes = repository.findByDone(true);
+        List<Todo> newTodoes = repository.findByDone(false);
         setTodos(newTodoes);
     }
 }

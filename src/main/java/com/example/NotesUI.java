@@ -9,14 +9,19 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 @SpringUI
 @Theme("valo")
-public class TodoUI extends UI {
+public class NotesUI extends UI {
 
+    private Button deleteButton;
+    private Button showUndoneButton;
+    private Button showAllButton;
+    private Button showDoneButton;
     private VerticalLayout layout;
 
     @Autowired
-    TodoList todoList;
+    NotesList notesList;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -34,7 +39,7 @@ public class TodoUI extends UI {
     }
 
     private void addHeader() {
-        Label header = new Label("TODO");
+        Label header = new Label("NOTES");
         header.addStyleName(ValoTheme.LABEL_H1);
         layout.addComponent(header);
 
@@ -56,31 +61,55 @@ public class TodoUI extends UI {
         addButton.setIcon(VaadinIcons.PLUS);
 
         addButton.addClickListener(click -> {
-            todoList.addTodo(new Todo(taskField.getValue()));
+            notesList.addTodo(new Notes(taskField.getValue()));
             taskField.setValue("");
             taskField.focus();
+            showAllButton.setEnabled(true);
+            showAllButton.click();
         });
         addButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
     }
 
     private void addTodoList() {
-        layout.addComponent(todoList);
+        layout.addComponent(notesList);
     }
 
     private void addActionButtons() {
         HorizontalLayout formLayout = new HorizontalLayout();
         formLayout.setWidth("80%");
 
-        Button deleteButton = new Button("Delete completed items");
-        Button showUndoneButton = new Button("Show only Undone tasks");
-        Button showAllButton = new Button("Show All");
+        deleteButton = new Button("Удалить выполненные");
+        showUndoneButton = new Button("Только невыполненные");
+        showAllButton = new Button("Все заметки");
+        showDoneButton = new Button("Только выполненные");
         showAllButton.setEnabled(false);
 
-        deleteButton.addClickListener(click->todoList.deleteCompleted());
-        showUndoneButton.addClickListener(click -> {todoList.showCompleted(); showUndoneButton.setEnabled(false); showAllButton.setEnabled(true);});
-        showAllButton.addClickListener(click -> {todoList.showAll();  showUndoneButton.setEnabled(true); showAllButton.setEnabled(false);});
+        deleteButton.addClickListener(click-> {
+            notesList.deleteCompleted();
+            showAllButton.click();
+        });
+
+        showUndoneButton.addClickListener(click -> {
+            notesList.showUndoneOnly();
+            showUndoneButton.setEnabled(false);
+            showDoneButton.setEnabled(true);
+            showAllButton.setEnabled(true);});
+
+        showAllButton.addClickListener(click -> {
+            notesList.showAll();
+            showUndoneButton.setEnabled(true);
+            showDoneButton.setEnabled(true);
+            showAllButton.setEnabled(false);});
+
+        showDoneButton.addClickListener(clickEvent -> {
+            notesList.showDoneOnly();
+            showDoneButton.setEnabled(false);
+            showUndoneButton.setEnabled(true);
+            showAllButton.setEnabled(true);
+        });
 
         formLayout.addComponent(showUndoneButton);
+        formLayout.addComponent(showDoneButton);
         formLayout.addComponent(showAllButton);
         formLayout.addComponent(deleteButton);
 

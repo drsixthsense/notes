@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-public class Todo {
+public class Notes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,14 +19,14 @@ public class Todo {
 
     private Date date;
 
-    public Todo() {
+    public Notes() {
     }
 
-    public Todo(String text) {
+    public Notes(String text) {
         this.text = text;
     }
 
-    public Todo(String text, boolean done) {
+    public Notes(String text, boolean done) {
         this.text = text;
         this.done = done;
     }

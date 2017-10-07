@@ -9,7 +9,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class NotesLayout extends HorizontalLayout {
     private final CheckBox done;
     private final TextField text;
-    private final DateTimeField dateTimeField;
+    private final DateTimeField date;
 
     public NotesLayout(Notes notes, NotesChangeListener changeListener) {
         setWidth("100%");
@@ -17,7 +17,10 @@ public class NotesLayout extends HorizontalLayout {
 
         done = new CheckBox();
         text = new TextField();
-        dateTimeField = new DateTimeField();
+        date = new DateTimeField();
+        date.setDateFormat("yyyy-MMM-dd HH:mm:ss");
+
+        date.setEnabled(false);
         text.addStyleName(ValoTheme.TEXTFIELD_BORDERLESS);
         text.setValueChangeMode(ValueChangeMode.BLUR);
 
@@ -27,14 +30,17 @@ public class NotesLayout extends HorizontalLayout {
         // The following does the same more explicitly
         // binder.bind(text, Notes::getText, Notes::setText);
         // binder.bind(done, Notes::isDone, Notes::setDone);
+//        binder.bind(dateTimeField, "date");
 
 
         binder.setBean(notes);
 
         addComponent(done);
         addComponentsAndExpand(text);
-        addComponent(dateTimeField);
+        addComponent(date);
 
         binder.addValueChangeListener(event -> changeListener.todoChanged(notes));
     }
+
+
 }

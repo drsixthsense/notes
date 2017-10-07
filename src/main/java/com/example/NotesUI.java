@@ -18,6 +18,7 @@ public class NotesUI extends UI {
     private Button showUndoneButton;
     private Button showAllButton;
     private Button showDoneButton;
+    private Button sortByDate;
     private VerticalLayout layout;
 
     @Autowired
@@ -82,11 +83,16 @@ public class NotesUI extends UI {
         showUndoneButton = new Button("Только невыполненные");
         showAllButton = new Button("Все заметки");
         showDoneButton = new Button("Только выполненные");
+        sortByDate = new Button("Показать свежие");
         showAllButton.setEnabled(false);
 
         deleteButton.addClickListener(click-> {
             notesList.deleteCompleted();
             showAllButton.click();
+        });
+
+        sortByDate.addClickListener(clickEvent -> {
+            notesList.changeSortMethod();
         });
 
         showUndoneButton.addClickListener(click -> {
@@ -111,6 +117,7 @@ public class NotesUI extends UI {
         formLayout.addComponent(showUndoneButton);
         formLayout.addComponent(showDoneButton);
         formLayout.addComponent(showAllButton);
+        formLayout.addComponent(sortByDate);
         formLayout.addComponent(deleteButton);
 
         layout.addComponent(formLayout);
